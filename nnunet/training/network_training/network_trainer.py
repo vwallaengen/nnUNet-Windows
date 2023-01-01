@@ -348,7 +348,7 @@ class NetworkTrainer(object):
 
         new_state_dict = OrderedDict()
         curr_state_dict_keys = list(self.network.state_dict().keys())
-        # if state dict comes form nn.DataParallel but we use non-parallel model here then the state dict keys do not
+        # if state dict comes from nn.DataParallel but we use non-parallel model here then the state dict keys do not
         # match. Use heuristic to make it match
         for k, value in checkpoint['state_dict'].items():
             key = k
@@ -358,8 +358,9 @@ class NetworkTrainer(object):
 
         if self.fp16:
             self._maybe_init_amp()
-            if 'amp_grad_scaler' in checkpoint.keys():
-                self.amp_grad_scaler.load_state_dict(checkpoint['amp_grad_scaler'])
+            if train:
+                if 'amp_grad_scaler' in checkpoint.keys():
+                    self.amp_grad_scaler.load_state_dict(checkpoint['amp_grad_scaler'])
 
         self.network.load_state_dict(new_state_dict)
         self.epoch = checkpoint['epoch']

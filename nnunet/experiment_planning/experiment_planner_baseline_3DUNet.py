@@ -246,7 +246,7 @@ class ExperimentPlanner(object):
 
     def plan_experiment(self):
         use_nonzero_mask_for_normalization = self.determine_whether_to_use_mask_for_norm()
-        print("Are we using the nonzero mask for normalizaion?", use_nonzero_mask_for_normalization)
+        print("Are we using the nonzero mask for normalization?", use_nonzero_mask_for_normalization)
         spacings = self.dataset_properties['all_spacings']
         sizes = self.dataset_properties['all_sizes']
 
@@ -364,6 +364,8 @@ class ExperimentPlanner(object):
         for i in range(num_modalities):
             if modalities[i] == "CT" or modalities[i] == 'ct':
                 schemes[i] = "CT"
+            elif modalities[i] == 'noNorm':
+                schemes[i] = "noNorm"
             else:
                 schemes[i] = "nonCT"
         return schemes
